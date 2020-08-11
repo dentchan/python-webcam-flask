@@ -9,6 +9,8 @@
          #container {
              margin: 0px auto;
              border: 10px #333 solid;
+			 width: 640px;
+             height: 480px;
          }
          #videoElement {
              width: 640px;
@@ -33,7 +35,7 @@
         <div id="container">
             <video autoplay="true" id="videoElement">
             </video>
-            <img id="imageElement" src="{{ url_for('video_feed') }}">
+           
             <canvas id="canvasElement"></canvas>
         </div>
 
