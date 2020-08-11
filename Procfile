@@ -1,1 +1,1 @@
-web: gunicorn -k eventlet -w 1 app:app --log-file=-
+web: gunicorn --bind 0.0.0.0:$PORT flaskapp:app
