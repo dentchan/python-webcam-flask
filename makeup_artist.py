@@ -16,7 +16,7 @@ class Makeup_artist(object):
         pass
 
     def apply_makeup(self, img):
-        net = cv2.dnn.readNetFromCaffe(prototxt, model)
+        net = cv2.dnn.readNetFromCaffe("deploy.prototxt.txt", "res10_300x300_ssd_iter_140000.caffemodel")
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         canvas = np.zeros((250, 300, 3), dtype="uint8")
         # grab the frame dimensions and convert it to a blob
@@ -31,22 +31,18 @@ class Makeup_artist(object):
     
             # filter out weak detections by ensuring the `confidence` is
             # greater than the minimum confidence
-        if confidence < 0.5:
-                continue
-    
-            # compute the (x, y)-coordinates of the bounding box for the
-            # object
+        if confidence < 0.5:  
             box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
             (startX, startY, endX, endY) = box.astype("int")
-                        # draw the bounding box of the face along with the associated
-            # probability
+                            # draw the bounding box of the face along with the associated
+                # probability
             text = "{:.2f}%".format(confidence * 100)
             y = startY - 10 if startY - 10 > 10 else startY + 10
             cv2.rectangle(frame, (startX, startY), (endX, endY),
-                (0, 255, 255), 2)
-    #       cv2.putText(frame, text, (startX, y),
-    #           cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
-            
+                    (0, 255, 255), 2)
+        #       cv2.putText(frame, text, (startX, y),
+        #           cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+                
             roi = gray[startY:startY + endY, startX:startX + endX]
             roi = cv2.resize(roi, (48, 48))
             roi = roi.astype("float") / 255.0
